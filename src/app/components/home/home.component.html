@@ -1,0 +1,22 @@
+<section class="container mt-3">
+    <h2>Geolocalización de usuarios dentro de un mapa.</h2>
+    <div class="card">
+        <agm-map [latitude]="lat" [longitude]="long" mapTypeId="hybrid" [fitBounds]="true">
+            <!-- <agm-kml-layer url='https://datos.madrid.es/egob/catalogo/202088-0-trafico-camaras.kml'></agm-kml-layer>
+            <agm-marker [latitude]="lat" [longitude]="long" [iconUrl]="$any({ url:'https://cdn-icons.flaticon.com/png/512/2496/premium/2496061.png?token=exp=1637850924~hmac=a95598e3dae2fc38577c89985a6e6f18', scaledSize: {width: 50, height: 50}})">
+            </agm-marker> -->
+            <agm-marker *ngFor="let user of arrUsers" [latitude]="user?.address.geo.lat" [longitude]="user?.address.geo.lng" [agmFitBounds]="true" (markerClick)="(infoWindow)">
+                <agm-info-window #infoWindow>
+                    <h5 class="title">{{ user.name}}</h5>
+                    <hr>
+                    <p>{{ user?.address.street}}</p>
+                    <a target="_blank" [href]="'https://maps.google.com/?q='+user?.address.geo.lat+','+user?.address.geo.lng+''"
+                    class="btn btn-primary">Ir a</a>
+                    <button class="btn btn-warning" [routerLink]="['/user', user?.id]">Ver detalle</button>
+                </agm-info-window>
+            </agm-marker>
+        </agm-map>
+    </div>
+</section>
+
+<!-- [zoom]="15" para ponerlo en el agm-map para que saque el zoom centrado en nuestra localización -->
